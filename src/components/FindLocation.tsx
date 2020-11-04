@@ -16,7 +16,7 @@ const FindLocation = () => {
 
   useEffect(() => {
     const loader = new Loader({
-      apiKey: "AIzaSyBw4q7JvpyQFN_QzPUb1H6mwUuZ3hEQHRw",
+      apiKey: process.env.REACT_APP_LOCATION_API as string,
       libraries: ["places"],
       version: "weekly",
     });
