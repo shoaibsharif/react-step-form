@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./index.css";
+import "./style.css"
 import { StoreProvider } from "easy-peasy";
 import { store } from "./store/store";
 

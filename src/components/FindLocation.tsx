@@ -36,8 +36,8 @@ const FindLocation = () => {
     });
   }, []);
   return (
-    <div className="mt-6">
-      <div className="mt-2 mb-5">
+    <div style={{marginTop: "100px"}}>
+      <div className="mt-8 mb-5">
         <TextField
           fullWidth
           label="Enter location"
