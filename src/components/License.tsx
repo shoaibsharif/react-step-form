@@ -1,14 +1,13 @@
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import { useStoreActions } from 'easy-peasy';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Link, Element, animateScroll as scroll, scroller } from 'react-scroll';
+import { Element, animateScroll as scroll, scroller } from 'react-scroll';
+// @ts-ignore
+import ClassNames from 'classnames';
 
 const License = () => {
   const history = useHistory();
+  const [activeArea, setActiveArea] = useState('');
+
   return (
     <Element name='license-area' className='main-content-wrapper container'>
       <Element name='country-search'>
@@ -51,59 +50,118 @@ const License = () => {
                 placeholder='Search and select your country'
                 onKeyPress={(e) => {
                   if (e.key == 'Enter') scroller.scrollTo('years-test-passed', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                  setActiveArea('years-test-passed');
                 }}
               />
             </div>
           </div>
         </div>
       </Element>
-      <Element name='years-test-passed' className='comon-list-card test-card'>
+      <Element name='years-test-passed' className={ClassNames('comon-list-card test-card', { active: activeArea === 'years-test-passed' })}>
         <h3 className='card-title'>How many years ago did you pass that test?</h3>
         <ul className='card-list'>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             0<span>-</span>1
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             1<span>-</span>2
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             2<span>-</span>3
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             3<span>-</span>4
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             4<span>-</span>5
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             5<span>-</span>6
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             6<span>-</span>7
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             7<span>-</span>8
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             8<span>-</span>9
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
             9<span>-</span>10
           </li>
-          <li onClick={() => scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>10+</li>
+          <li
+            onClick={() => {
+              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+              setActiveArea('UK-license');
+            }}>
+            10+
+          </li>
         </ul>
       </Element>
       <Element name='UK-license'>
-        <div className='comon-list-card licence'>
+        <div className={ClassNames('comon-list-card licence', { active: activeArea === 'UK-license' })}>
           <h3 className='card-title'>Do you now have a full UK licence?</h3>
           <ul className='card-list'>
-            <li onClick={() => scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>Yes</li>
-            <li onClick={() => scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 })}>No</li>
+            <li
+              onClick={() => {
+                scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                setActiveArea('uk-license-longer');
+              }}>
+              Yes
+            </li>
+            <li
+              onClick={() => {
+                scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                setActiveArea('uk-license-longer');
+              }}>
+              No
+            </li>
           </ul>
         </div>
       </Element>
       <Element name='uk-license-longer'>
-        <div className='comon-list-card licence-time'>
+        <div className={ClassNames('comon-list-card licence-time', { active: activeArea === 'uk-license-longer' })}>
           <div className='card-heading'>
             <h3 className='card-title'>How long have you had a full UK licence?</h3>
             <div className='card-tooltip'>
