@@ -3,18 +3,26 @@ import { useHistory } from 'react-router-dom';
 import { Element, animateScroll as scroll, scroller } from 'react-scroll';
 // @ts-ignore
 import ClassNames from 'classnames';
+import { countryList } from '../utlities/countries';
 
 const License = () => {
   const history = useHistory();
   const [activeArea, setActiveArea] = useState('');
-
+  const [state, setState] = useState({
+    country: '',
+    passYearsAgo: '',
+    haveUKLicense: false,
+    ukLicencePeriod: '',
+  });
+  const [input, setInput] = useState('');
+  const [activeClass, setActiveClass] = useState(false);
   return (
     <Element name='license-area' className='main-content-wrapper container'>
       <Element name='country-search'>
         <div className='licence-area-content'>
           <div className='country-search'>
             <h3>In which country did you first pass your driving test?</h3>
-            <div className='country-input-wrapper'>
+            <div className={ClassNames('country-input-wrapper', { 'active-input': activeClass === true })}>
               <span>
                 <svg version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512 512' enableBackground='new 0 0 512 512'>
                   <g>
@@ -48,11 +56,32 @@ const License = () => {
               <input
                 type='search'
                 placeholder='Search and select your country'
-                onKeyPress={(e) => {
-                  if (e.key == 'Enter') scroller.scrollTo('years-test-passed', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-                  setActiveArea('years-test-passed');
+                onChange={(e) => {
+                  setInput(e.target.value);
+
+                  if (e.target.value.length > 0) setActiveClass(true);
+                  else setActiveClass(false);
                 }}
+                value={input}
               />
+              <div className={ClassNames('country-list-wrapper', { 'list-hidden': activeClass == false })}>
+                <ul className='countryList'>
+                  {input.length > 0 &&
+                    countryList
+                      .filter((country) => country.toLocaleLowerCase().includes(input.toLocaleLowerCase()))
+                      .map((country) => (
+                        <li
+                          onClick={() => {
+                            scroller.scrollTo('years-test-passed', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                            setActiveArea('years-test-passed');
+                            setInput(country);
+                            setActiveClass(false);
+                          }}>
+                          {country}
+                        </li>
+                      ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

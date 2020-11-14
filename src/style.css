@@ -314,22 +314,24 @@ body {
 .country-input-wrapper {
   height: 50px;
   position: relative;
+  width: 380px;
+  border: 1px solid rgb(174, 174, 174);
 }
 
 .country-input-wrapper input {
   height: 100%;
   padding: 10px 15px 10px 40px;
-  width: 380px;
-  border: 1px solid rgb(174, 174, 174);
+  border: 0;
   border-radius: 8px;
   font-size: 16px;
   color: rgb(17, 32, 53);
+  width: 100%;
 }
-
+/* 
 .country-input-wrapper input:hover,
 .country-input-wrapper input:focus {
   border-color: rgb(17, 32, 53);
-}
+} */
 
 .country-input-wrapper input::placeholder {
   color: rgb(174, 174, 174);
@@ -353,6 +355,38 @@ body {
 
 .country-input-wrapper span path {
   fill: rgb(174, 174, 174);
+}
+
+.country-list-wrapper {
+  border: 1px solid rgb(174, 174, 174);
+  margin-left: -1px;
+  margin-right: -1px;
+  max-height: 250px;
+}
+.country-list-wrapper.list-hidden,
+.country-list-wrapper.list-hidden .countryList {
+  max-height: 0;
+}
+.countryList {
+  position: relative;
+  max-height: 250px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow-y: auto;
+  transition: all 0.2s linear 0s;
+  width: 100%;
+}
+.countryList li {
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: rgb(158, 158, 158);
+  cursor: pointer;
+  font-size: 16px;
+}
+.countryList li:hover {
+  color: rgb(255, 255, 255);
+  background: rgb(17, 32, 53);
 }
 
 .comon-list-card {
