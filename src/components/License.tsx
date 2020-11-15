@@ -8,21 +8,20 @@ import { countryList } from '../utlities/countries';
 const License = () => {
   const history = useHistory();
   const [activeArea, setActiveArea] = useState('');
-  const [state, setState] = useState({
+  const [state, setState] = useState<{ country: string; passYearsAgo: string; haveUKLicense?: boolean; ukLicencePeriod: string }>({
     country: '',
     passYearsAgo: '',
-    haveUKLicense: false,
     ukLicencePeriod: '',
   });
   const [input, setInput] = useState('');
-  const [activeClass, setActiveClass] = useState(false);
+  const [activeInputClass, setActiveInputClass] = useState(false);
   return (
     <Element name='license-area' className='main-content-wrapper container'>
       <Element name='country-search'>
         <div className='licence-area-content'>
           <div className='country-search'>
             <h3>In which country did you first pass your driving test?</h3>
-            <div className={ClassNames('country-input-wrapper', { 'active-input': activeClass === true })}>
+            <div className={ClassNames('country-input-wrapper', { 'active-input': activeInputClass === true })}>
               <span>
                 <svg version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512 512' enableBackground='new 0 0 512 512'>
                   <g>
@@ -59,12 +58,12 @@ const License = () => {
                 onChange={(e) => {
                   setInput(e.target.value);
 
-                  if (e.target.value.length > 0) setActiveClass(true);
-                  else setActiveClass(false);
+                  if (e.target.value.length > 0) setActiveInputClass(true);
+                  else setActiveInputClass(false);
                 }}
                 value={input}
               />
-              <div className={ClassNames('country-list-wrapper', { 'list-hidden': activeClass == false })}>
+              <div className={ClassNames('country-list-wrapper', { 'list-hidden': activeInputClass == false })}>
                 <ul className='countryList'>
                   {input.length > 0 &&
                     countryList
@@ -73,9 +72,10 @@ const License = () => {
                         <li
                           onClick={() => {
                             scroller.scrollTo('years-test-passed', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-                            setActiveArea('years-test-passed');
+                            setActiveArea(activeArea + ' years-test-passed');
                             setInput(country);
-                            setActiveClass(false);
+                            setActiveInputClass(false);
+                            setState({ ...state, country });
                           }}>
                           {country}
                         </li>
@@ -86,111 +86,49 @@ const License = () => {
           </div>
         </div>
       </Element>
-      <Element name='years-test-passed' className={ClassNames('comon-list-card test-card', { active: activeArea === 'years-test-passed' })}>
+      <Element name='years-test-passed' className={ClassNames('comon-list-card test-card', { active: activeArea.includes('years-test-passed') })}>
         <h3 className='card-title'>How many years ago did you pass that test?</h3>
         <ul className='card-list'>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            0<span>-</span>1
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            1<span>-</span>2
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            2<span>-</span>3
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            3<span>-</span>4
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            4<span>-</span>5
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            5<span>-</span>6
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            6<span>-</span>7
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            7<span>-</span>8
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            8<span>-</span>9
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            9<span>-</span>10
-          </li>
-          <li
-            onClick={() => {
-              scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-              setActiveArea('UK-license');
-            }}>
-            10+
-          </li>
+          {['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10+'].map((single) => (
+            <li
+              onClick={() => {
+                scroller.scrollTo('UK-license', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                setActiveArea(activeArea + ' UK-license');
+                setState({ ...state, passYearsAgo: single });
+              }}
+              className={ClassNames({ active: state.passYearsAgo === single })}>
+              {single.includes('-') ? (
+                <>
+                  {single.substr(0, 1)} <span>-</span>
+                  {single.substr(single.indexOf('-') + 1, single.length)}
+                </>
+              ) : (
+                single
+              )}
+            </li>
+          ))}
         </ul>
       </Element>
       <Element name='UK-license'>
-        <div className={ClassNames('comon-list-card licence', { active: activeArea === 'UK-license' })}>
+        <div className={ClassNames('comon-list-card licence', { active: activeArea.includes('UK-license') })}>
           <h3 className='card-title'>Do you now have a full UK licence?</h3>
           <ul className='card-list'>
-            <li
-              onClick={() => {
-                scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-                setActiveArea('uk-license-longer');
-              }}>
-              Yes
-            </li>
-            <li
-              onClick={() => {
-                scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-                setActiveArea('uk-license-longer');
-              }}>
-              No
-            </li>
+            {[true, false].map((value) => (
+              <li
+                onClick={() => {
+                  scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                  setActiveArea(activeArea + ' uk-license-longer');
+                  setState({ ...state, haveUKLicense: value });
+                }}
+                className={ClassNames({ active: state.haveUKLicense == value })}>
+                {value ? 'Yes' : 'No'}
+              </li>
+            ))}
           </ul>
         </div>
       </Element>
       <Element name='uk-license-longer'>
-        <div className={ClassNames('comon-list-card licence-time', { active: activeArea === 'uk-license-longer' })}>
+        <div className={ClassNames('comon-list-card licence-time', { active: activeArea.includes('uk-license-longer') })}>
           <div className='card-heading'>
             <h3 className='card-title'>How long have you had a full UK licence?</h3>
             <div className='card-tooltip'>
@@ -207,37 +145,22 @@ const License = () => {
             </div>
           </div>
           <ul className='card-list'>
-            <li>
-              0<span>-</span>1
-            </li>
-            <li>
-              1<span>-</span>2
-            </li>
-            <li>
-              2<span>-</span>3
-            </li>
-            <li>
-              3<span>-</span>4
-            </li>
-            <li>
-              4<span>-</span>5
-            </li>
-            <li>
-              5<span>-</span>6
-            </li>
-            <li>
-              6<span>-</span>7
-            </li>
-            <li>
-              7<span>-</span>8
-            </li>
-            <li>
-              8<span>-</span>9
-            </li>
-            <li>
-              9<span>-</span>10
-            </li>
-            <li>10+</li>
+            {['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10+'].map((single) => (
+              <li
+                onClick={() => {
+                  setState({ ...state, ukLicencePeriod: single });
+                }}
+                className={ClassNames({ active: state.ukLicencePeriod === single })}>
+                {single.includes('-') ? (
+                  <>
+                    {single.substr(0, 1)} <span>-</span>
+                    {single.substr(single.indexOf('-') + 1, single.length)}
+                  </>
+                ) : (
+                  single
+                )}
+              </li>
+            ))}
           </ul>
         </div>
       </Element>
