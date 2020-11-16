@@ -393,6 +393,9 @@ body {
   opacity: 0.3;
   pointer-events: none;
 }
+.comon-list-card.active {
+  pointer-events: unset;
+}
 
 .comon-list-card .card-title {
   font-size: 18px;

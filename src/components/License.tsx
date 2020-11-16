@@ -121,6 +121,7 @@ const License = () => {
                 onClick={() => {
                   if (!value) {
                     history.push('/driving');
+                    actions.setProgress(25);
                   } else {
                     scroller.scrollTo('uk-license-longer', {
                       duration: 800,
@@ -128,7 +129,7 @@ const License = () => {
                       smooth: 'easeInOutQuart',
                       offset: -100,
                     });
-                    actions.setProgress(25);
+
                     setActiveArea(activeArea + ' uk-license-longer');
                     actions.setForm(state);
                   }

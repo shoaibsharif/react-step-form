@@ -2,27 +2,46 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useStoreActions } from '../store';
 import { motion } from 'framer-motion';
+// @ts-ignore
+import ClassNames from 'classnames';
 
 import { Element, animateScroll as scroll, scroller } from 'react-scroll';
+import { light } from '@material-ui/core/styles/createPalette';
 
 const InsurancePolicy = () => {
   const history = useHistory();
   const [activeArea, setActiveArea] = useState('');
+  const [state, setState] = useState<{
+    licensePlate: string;
+    carPurchaseYear: string;
+    carPurchaseMonth: string;
+    haveUkLicense: null | boolean;
+    reasonForCommute: string;
+  }>({ licensePlate: '', carPurchaseYear: '', carPurchaseMonth: '', haveUkLicense: null, reasonForCommute: '' });
   // const setProgress = useStoreActions((actions) => actions.setProgress);
 
   return (
-    <motion.section transition={{ duration: 0.3, ease: 'easeInOut' }} animate={{ x: [-100, 0], opacity: [0, 1] }} className='main-content-wrapper container'>
+    <motion.section transition={{ duration: 2, ease: 'easeInOut' }} animate={{ x: [-100, 0], opacity: [0, 1] }} className='main-content-wrapper container'>
       <Element name='driving-wrapper'>
         <div className='licence-area-content'>
           <Element name='license-plate-input'>
             <div className='reg-search'>
               <h3>What is your car’s licence plate?</h3>
               <div className='reg-input-wrapper'>
-                <input type='search' placeholder='UR REG' />
+                <input
+                  type='search'
+                  placeholder='UR REG'
+                  onChange={(e) => {
+                    setState({ ...state, licensePlate: e.target.value });
+                  }}
+                  value={state.licensePlate}
+                />
                 <span
                   onClick={() => {
-                    scroller.scrollTo('purchase-year', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-                    setActiveArea(activeArea + ' purchase-year');
+                    if (state.licensePlate.length > 0) {
+                      scroller.scrollTo('purchase-year', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                      setActiveArea(activeArea + ' purchase-year');
+                    }
                   }}>
                   <svg version='1.1' id='Capa_1' x='0px' y='0px' viewBox='0 0 56.966 56.966' enableBackground='new 0 0 56.966 56.966' xmlSpace='preserve'>
                     <path
@@ -53,56 +72,88 @@ const InsurancePolicy = () => {
           </Element>
 
           <Element name='purchase-year'>
-            <div className='comon-list-card purchase-year'>
+            <div className={ClassNames('comon-list-card purchase-year', { active: activeArea.includes('purchase-year') })}>
               <h3 className='card-title'>What year did you purchase the car?</h3>
               <ul className='card-list'>
                 {['2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', 'Before 2010'].map((year) => (
-                  <li>{year}</li>
+                  <li
+                    className={ClassNames({ active: year === state.carPurchaseYear })}
+                    onClick={() => {
+                      setState({ ...state, carPurchaseYear: year });
+                      scroller.scrollTo('purchase-month', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                      setActiveArea(activeArea + ' purchase-month');
+                    }}>
+                    {year}
+                  </li>
                 ))}
               </ul>
             </div>
           </Element>
 
-          <Element name='purchase-month' className='comon-list-card purchase-month'>
+          <Element name='purchase-month' className={ClassNames('comon-list-card purchase-month', { active: activeArea.includes('purchase-month') })}>
             <h3 className='card-title'>In which month did you purchase it?</h3>
             <ul className='card-list'>
               {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'July', 'August', 'September', 'October', 'November', 'December'].map((month) => (
-                <li>{month}</li>
+                <li
+                  className={ClassNames({ active: month === state.carPurchaseMonth })}
+                  onClick={() => {
+                    setState({ ...state, carPurchaseMonth: month });
+                    scroller.scrollTo('have-ukLicense', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                    setActiveArea(activeArea + ' have-ukLicense');
+                  }}>
+                  {month}
+                </li>
               ))}
             </ul>
-            <a href=''>I don’t remember</a>
+            <a
+              onClick={() => {
+                setState({ ...state, carPurchaseMonth: '' });
+                scroller.scrollTo('have-ukLicense', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                setActiveArea(activeArea + ' have-ukLicense');
+              }}>
+              I don’t remember
+            </a>
           </Element>
 
-          <Element name='have-ukLicense' className='comon-list-card others-car'>
+          <Element name='have-ukLicense' className={ClassNames('comon-list-card others-car', { active: activeArea.includes('have-ukLicense') })}>
             <h3 className='card-title'>Do you now have a full UK licence?</h3>
             <ul className='card-list'>
-              <li>Yes</li>
-              <li>No</li>
+              {[true, false].map((value) => (
+                <li
+                  className={ClassNames({ active: state.haveUkLicense == value })}
+                  onClick={() => {
+                    setState({ ...state, haveUkLicense: value });
+                    scroller.scrollTo('car-used-for-work', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
+                    setActiveArea(activeArea + ' car-used-for-work');
+                  }}>
+                  {value ? 'Yes' : 'No'}
+                </li>
+              ))}
             </ul>
           </Element>
 
-          <Element name='car-used-for-work' className='comon-list-card purchase-month'>
+          <Element name='car-used-for-work' className={ClassNames('comon-list-card purchase-month', { active: activeArea.includes('car-used-for-work') })}>
             <h3 className='card-title'>Will this car be used for work?</h3>
             <ul className='card-full-list'>
               <li>
                 <div className='card-full-list-box'>
-                  <a href=''>Nope</a>
+                  <a>Nope</a>
                 </div>
               </li>
               <li>
                 <div className='card-full-list-box'>
-                  <a href=''>I drive to and from work (commute)</a>
+                  <a>I drive to and from work (commute)</a>
                 </div>
               </li>
               <li>
-                <div className='card-full-list-box'>
-                  <a href=''>Yes, I drive between work locations and occasionally to clients</a>
+                <div className='card-full-list-box active'>
+                  <a>Yes, I drive between work locations and occasionally to clients</a>
                 </div>
                 <p>Covers occasionally travelling to different sites. Does not cover working as a travelling service/sales person. Covers main driver and spouse (if added to policy).</p>
               </li>
               <li>
                 <div className='card-full-list-box'>
-                  <a href=''>Yes, the car will be used frequently to drive to multiple locations/clients</a>
+                  <a>Yes, the car will be used frequently to drive to multiple locations/clients</a>
                 </div>
                 <p>Includes frequently travelling to clients’ locations & storing work related items in the car.</p>
               </li>
