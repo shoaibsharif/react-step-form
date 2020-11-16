@@ -1,12 +1,11 @@
 import React from 'react';
-
-import Container from '@material-ui/core/Container';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import License from './components/License';
-import { BorderLinearProgress } from './components/BorderLinearProgress';
-import InsurancePolicy from './components/Driving';
+import Driving from './components/Driving';
 import { useStoreState } from './store';
 import FindLocation from './components/FindLocation';
+// @ts-ignore
+import ClassNames from 'classnames';
 
 function App() {
   const progress = useStoreState((state) => state.progress);
@@ -25,16 +24,16 @@ function App() {
           <div className='header-menu'>
             <ul>
               <li className='active'>
-                <a href=''>Licence</a>
+                <a>Licence</a>
+              </li>
+              <li className={ClassNames({active : progress >= 25})}>
+                <a>Car & Driving</a>
               </li>
               <li>
-                <a href=''>Car & Driving</a>
+                <a>Details</a>
               </li>
               <li>
-                <a href=''>Details</a>
-              </li>
-              <li>
-                <a href=''>Quote</a>
+                <a>Quote</a>
               </li>
             </ul>
           </div>
@@ -45,8 +44,8 @@ function App() {
         <Route exact path='/'>
           <License />
         </Route>
-        <Route exact path='/insurance'>
-          <InsurancePolicy />
+        <Route exact path='/driving'>
+          <Driving />
         </Route>
         <Route path='/location'>
           <FindLocation />

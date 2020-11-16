@@ -16,7 +16,7 @@ export interface ApplicationModel {
 export interface StoreModel extends ProgressModel , ApplicationModel{}
 
 export const store = createStore<StoreModel>({
-  progress: 40,
+  progress: 0,
   country: '',
   passYearsAgo: "0-1",
   haveUKLicense: false,

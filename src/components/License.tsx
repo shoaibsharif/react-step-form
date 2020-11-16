@@ -4,6 +4,7 @@ import { Element, animateScroll as scroll, scroller } from 'react-scroll';
 // @ts-ignore
 import ClassNames from 'classnames';
 import { countryList } from '../utlities/countries';
+import { useStoreActions } from '../store';
 
 const License = () => {
   const history = useHistory();
@@ -15,6 +16,8 @@ const License = () => {
   });
   const [input, setInput] = useState('');
   const [activeInputClass, setActiveInputClass] = useState(false);
+  const actions = useStoreActions((actions) => actions);
+  // const state =
   return (
     <Element name='license-area' className='main-content-wrapper container'>
       <Element name='country-search'>
@@ -116,8 +119,19 @@ const License = () => {
             {[true, false].map((value) => (
               <li
                 onClick={() => {
-                  scroller.scrollTo('uk-license-longer', { duration: 800, delay: 0, smooth: 'easeInOutQuart', offset: -100 });
-                  setActiveArea(activeArea + ' uk-license-longer');
+                  if (!value) {
+                    history.push('/driving');
+                  } else {
+                    scroller.scrollTo('uk-license-longer', {
+                      duration: 800,
+                      delay: 0,
+                      smooth: 'easeInOutQuart',
+                      offset: -100,
+                    });
+                    actions.setProgress(25);
+                    setActiveArea(activeArea + ' uk-license-longer');
+                    actions.setForm(state);
+                  }
                   setState({ ...state, haveUKLicense: value });
                 }}
                 className={ClassNames({ active: state.haveUKLicense == value })}>

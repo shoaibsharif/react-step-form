@@ -16,6 +16,7 @@
     "@types/react-dom": "^16.9.9",
     "classnames": "^2.2.6",
     "easy-peasy": "^4.0.1",
+    "framer-motion": "^2.9.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.10.1",

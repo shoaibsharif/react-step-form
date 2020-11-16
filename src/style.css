@@ -391,6 +391,7 @@ body {
 
 .comon-list-card {
   opacity: 0.3;
+  pointer-events: none;
 }
 
 .comon-list-card .card-title {
@@ -445,6 +446,7 @@ body {
 .licence.active,
 .licence-time.active {
   opacity: 1;
+  pointer-events: unset;
 }
 
 .licence-time {
